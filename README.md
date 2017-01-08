@@ -44,4 +44,4 @@ Save a screenshot of the running sketch by pressing the right mouse button.
 The texture image for the earth is from the examples folder in the
 Processing distribution (TextureSphere example). The texture image for the
 sun is from
-<https://commons.wikimedia.org/wiki/File:Map_of_the_full_sun.jpg#filelinks>.
+<https://commons.wikimedia.org/wiki/File:Map_of_the_full_sun.jpg>.
