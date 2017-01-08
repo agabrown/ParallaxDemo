@@ -5,7 +5,7 @@ Simple demonstration of the concept of the annual parallax of stars
 ## Explanation and motivation for this Processing sketch
 
 This processing sketch implements an animation that provides a very basic
-illustration of the concept of the annual parallax of a star. The screenshot
+illustration of the concept of the annual parallax of a star. The screen-shot
 below shows what the animation looks like.
 
 The left part of the image shows the earth going around the sun and how the
@@ -37,7 +37,7 @@ included), which can be used on any platform (famous last words...).
 To run the sketch in full-screen mode uncomment the relevant line in the
 `setup { ... }` code block.
 
-Save a screenshot of the running sketch by pressing the right mouse button.
+Save a screen-shot of the running sketch by pressing the right mouse button.
 
 #### Resources
 
