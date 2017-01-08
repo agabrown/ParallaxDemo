@@ -1,6 +1,6 @@
 /**
  * Recreate the nice demo of parallax that was available from ESA. The ESA version was
- * implementedin Flash which is no longer supported.
+ * implemented in Flash which is no longer supported.
  *
  * The drawing is laid out for a 16:9 screen/image format.
  *
@@ -91,13 +91,12 @@ void setup() {
   float u;
   randomSeed(3141592653l);
   for (int i=0; i<10; i++) {
-    u = random(0,1);
+    u = random(0, 1);
     fieldStarX[i] = round(0.5*sizeUnit+9.0*sizeUnit*u);
     fieldStarX2D[i] = round(skyProjectionBoxX+0.2*sizeUnit + u*(skyProjectionBoxW-0.4*sizeUnit));
     fieldStarY[i] = random(round(0.25*sizeUnit), round(1.5*sizeUnit));
   }
   for (int i=0; i<10; i++) {
-    //fieldStarX2D[i] = random(round(skyProjectionBoxX+0.2*sizeUnit), round(skyProjectionBoxX+skyProjectionBoxW-0.2*sizeUnit));
     fieldStarY2D[i] = random(round(skyProjectionBoxY+skyProjectionBoxTextH+0.2*sizeUnit), round(skyProjectionBoxY+skyProjectionBoxH-0.2*sizeUnit));
   }
 
@@ -165,20 +164,12 @@ void setup() {
 void draw() {
   rotationPhase = (rotationPhase+1)%360;
   background(0);
-  
+
   pushStyle();
   fill(0);
   stroke(#CCCCCC);
   rect(skyProjectionBoxX, skyProjectionBoxY, skyProjectionBoxW, skyProjectionBoxH);
   popStyle();
-
-  //rect(0.1*sizeUnit, 0.1*sizeUnit, 9.8*sizeUnit, 8.8*sizeUnit);
-  //for (int i=0; i<22; i++) {
-  //  line(0.1*sizeUnit, (0.1+i*0.4)*sizeUnit, 9.9*sizeUnit, (0.1+i*0.4)*sizeUnit); 
-  //}
-  //for (int i=0; i<24; i++) {
-  //  line((0.1+i*0.4)*sizeUnit, 0.1*sizeUnit, (0.1+i*0.4)*sizeUnit, 8.9*sizeUnit);
-  //}
 
   pushStyle();
   fill(#FFFFFF);
@@ -204,7 +195,7 @@ void draw() {
 
   varpi = varpiRadius*starZMin*sizeUnit/(starZMin+(starZMax-starZMin)*scrollbar.getPos()*3);
   pushMatrix();
-  translate(skyProjectionCenX+rotationSense*cos(radians(rotationPhase))*varpi, skyProjectionCenY+sin(radians(rotationPhase))*varpi);
+  translate(skyProjectionCenX-rotationSense*cos(radians(rotationPhase))*varpi, skyProjectionCenY+sin(radians(rotationPhase))*varpi);
   shape(star2D);
   popMatrix();
 
@@ -254,14 +245,14 @@ void draw() {
   starVec.sub(earthVec);
   starVec.normalize();
   starVec.mult(lineOfSightLength);
-  
+
   pushStyle();
   stroke(128);
   strokeWeight(1);
   line(earthOrbitRadius, 0, 0, starX, starY, starZ);
   line(-earthOrbitRadius, 0, 0, starX, starY, starZ);
   popStyle();
-  
+
   pushMatrix();
   pushStyle();
   translate(earthVec.x, earthVec.y, earthVec.z);
@@ -270,4 +261,10 @@ void draw() {
   line(0, 0, 0, starVec.x, starVec.y, starVec.z);
   popStyle();
   popMatrix();
+}
+
+void mousePressed() {
+  if (mouseButton == RIGHT) {
+    save("parallax-demo.png");
+  }
 }
