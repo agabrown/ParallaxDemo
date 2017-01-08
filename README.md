@@ -24,5 +24,12 @@ language of a Flash animation created by ESA. The latter is no longer
 available for download and the Flash format is not supported anymore, hence
 the effort to recreate the parallax demonstration in Processing.
 
-The animation is intended for use during presentation to provide a simple
+The animation is intended for use during presentations; to provide a simple
 but effective demonstration of the concept of the annual parallax of a star.
+
+#### Resources
+
+The texture image for the earth is from the examples folder in the
+Processing distribution (TextureSphere example). The texture image for the
+sun is from
+<http://www.solarsystemscope.com/nexus/textures/planet_textures/>.
