@@ -17,9 +17,9 @@ right a scroll-bar can be seen that can be used to adjust the distance to
 the star (in light year). The value of the distance and corresponding
 parallax are shown above the scroll-bar.
 
-![ParallaxDemo screenshot][parallax-demo.png]
+![ParallaxDemo screenshot](parallax-demo.png)
 
-The animation is a recreation in the [Processing][https://processing.org]
+The animation is a recreation in the [Processing](https://processing.org)
 language of a Flash animation created by ESA. The latter is no longer
 available for download and the Flash format is not supported anymore, hence
 the effort to recreate the parallax demonstration in Processing.
