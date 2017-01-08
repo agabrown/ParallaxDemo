@@ -34,6 +34,9 @@ From within the Processing development environment the sketch can be
 exported as a stand-alone executable (with the Java Runtime Engine
 included), which can be used on any platform (famous last words...).
 
+To run the sketch in full-screen mode uncomment the relevant line in the
+`setup { ... }` code block.
+
 #### Resources
 
 The texture image for the earth is from the examples folder in the
