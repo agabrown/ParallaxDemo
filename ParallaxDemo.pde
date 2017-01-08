@@ -115,7 +115,7 @@ void setup() {
   noStroke();
   noFill();
   sun = createShape(SPHERE, sunRadius);
-  sun.setTexture(loadImage("texture_sun.jpg"));
+  sun.setTexture(loadImage("1024px-Map_of_the_full_sun.jpg"));
 
   /*
    * Create star shape.
