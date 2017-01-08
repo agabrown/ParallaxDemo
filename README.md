@@ -37,6 +37,8 @@ included), which can be used on any platform (famous last words...).
 To run the sketch in full-screen mode uncomment the relevant line in the
 `setup { ... }` code block.
 
+Save a screenshot of the running sketch by pressing the right mouse button.
+
 #### Resources
 
 The texture image for the earth is from the examples folder in the

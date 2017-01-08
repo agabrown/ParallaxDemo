@@ -263,6 +263,9 @@ void draw() {
   popMatrix();
 }
 
+/**
+ * Press right mouse-button to save a screenshot of this sketch.
+ */
 void mousePressed() {
   if (mouseButton == RIGHT) {
     save("parallax-demo.png");
