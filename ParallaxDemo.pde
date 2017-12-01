@@ -4,13 +4,13 @@
  *
  * The drawing is laid out for a 16:9 screen/image format.
  *
- * Anthony Brown Jan 2017
+ * Anthony Brown Jan 2017 - Dec 2017
  */
 
 import java.text.DecimalFormat;
 
 int rotationPhase = 0;
-int rotationSense = -1;
+int rotationSense = 1;
 
 float sunRadius;
 float sunX = 0;
@@ -53,17 +53,36 @@ PShape earth;
 HorizontalScrollBar scrollbar;
 
 int sizeUnit;
-float sceneRotAngle = radians(70);
+float sceneOriginX = 3.5;
+float sceneOriginY = 7;
+float sceneOriginZ = 0;
+float sceneRotAngle = radians(20);
 
 DecimalFormat formatter;
 
+/*
+ * The matrix to apply before specifying object coordinates in a normal right-handed 3D coordinate system.
+ * Applying this matrix ensures the correct appearance in the P3D coordinate system. Note that after
+ * applying this matrix all subsequent transformations apply to the right-handed 3D coordinate system.
+ *
+ * NOTE: translations to a particular screen coordinate should be applied before applying this matrix!
+ */
+PMatrix3D rightHanded3DtoP3D = new PMatrix3D(0, 1,  0, 0,
+                                             0, 0, -1, 0,
+                                             1, 0,  0, 0,
+                                             0, 0,  0, 1);
+
 void setup() {
-  size(960, 540, P3D);
-  //fullScreen(P3D);
+  //size(960, 540, P3D);
+  fullScreen(P3D);
   sizeUnit = width/16;
   frameRate(60);
   ellipseMode(RADIUS);
 
+  sceneOriginX *= sizeUnit;
+  sceneOriginY *= sizeUnit;
+  sceneOriginZ *= sizeUnit;
+  
   scrollbar = new HorizontalScrollBar(10.5*sizeUnit, height-sizeUnit*3/8, 5*sizeUnit, sizeUnit/4);
 
   sunRadius = sizeUnit/3.0;
@@ -118,19 +137,19 @@ void setup() {
   sun.setTexture(loadImage("1024px-Map_of_the_full_sun.jpg"));
 
   /*
-   * Create star shape.
+   * Create star shape. Define in Y-Z plane in the conventional right-handed Cartesian system.
    */
   fill(color(#FFFFFF));
   star = createShape();
   star.beginShape();
-  star.vertex(starPointSize, 0, 0);
-  star.vertex(starCornerSize, -starCornerSize, 0);
-  star.vertex(0, -starPointSize, 0);
-  star.vertex(-starCornerSize, -starCornerSize, 0);
-  star.vertex(-starPointSize, 0, 0);
-  star.vertex(-starCornerSize, starCornerSize, 0);
   star.vertex(0, starPointSize, 0);
-  star.vertex(starCornerSize, starCornerSize, 0);
+  star.vertex(0, starCornerSize, -starCornerSize);
+  star.vertex(0, 0, -starPointSize);
+  star.vertex(0, -starCornerSize, -starCornerSize);
+  star.vertex(0, -starPointSize, 0);
+  star.vertex(0, -starCornerSize, starCornerSize);
+  star.vertex(0, 0, starPointSize);
+  star.vertex(0, starCornerSize, starCornerSize);
   star.noStroke();
   star.endShape(CLOSE);
 
@@ -195,22 +214,23 @@ void draw() {
 
   varpi = varpiRadius*starZMin*sizeUnit/(starZMin+(starZMax-starZMin)*scrollbar.getPos()*3);
   pushMatrix();
-  translate(skyProjectionCenX-rotationSense*cos(radians(rotationPhase))*varpi, skyProjectionCenY+sin(radians(rotationPhase))*varpi);
+  translate(skyProjectionCenX+rotationSense*cos(radians(rotationPhase+90))*varpi, skyProjectionCenY+sin(radians(rotationPhase+90))*varpi);
   shape(star2D);
   popMatrix();
 
+  pushMatrix();
   pushStyle();
   stroke(#4477AA);
   strokeWeight(2);
   noFill();
-  translate(5*sizeUnit, 7*sizeUnit, 0);
-  rotateX(sceneRotAngle);
+  applyTransformation(sceneOriginX, sceneOriginY, sceneOriginZ, sceneRotAngle);
   ellipse(0, 0, earthOrbitRadius, earthOrbitRadius);
   popStyle();
+  popMatrix();
 
   pushMatrix();
   ambientLight(0xFF, 0xFF, 0xFF);
-  rotateX(-sceneRotAngle);
+  applyTransformation(sceneOriginX, sceneOriginY, sceneOriginZ, sceneRotAngle);
   shape(sun);
   noLights();
   popMatrix();
@@ -223,8 +243,8 @@ void draw() {
   pushStyle();
   noStroke();
   ambientLight(0xF5, 0xDF, 0x52);
+  applyTransformation(sceneOriginX, sceneOriginY, sceneOriginZ, sceneRotAngle);
   translate(starX, starY, starZ);
-  rotateX(-sceneRotAngle);
   shape(star);
   noLights();
   popStyle();
@@ -234,12 +254,12 @@ void draw() {
   ambientLight(0xFF, 0xFF, 0xFF);
   earthX = sunX+rotationSense*cos(radians(rotationPhase))*earthOrbitRadius;
   earthY = sunY+sin(radians(rotationPhase))*earthOrbitRadius;
-  translate(earthX, earthY, earthZ);
-  rotateX(-sceneRotAngle);
+  applyTransformation(sceneOriginX, sceneOriginY, sceneOriginZ,sceneRotAngle);
+  translate(earthX, earthY, 0);
   shape(earth);
   noLights();
   popMatrix();
-
+  
   PVector starVec = new PVector(starX, starY, starZ);
   PVector earthVec = new PVector(earthX, earthY, earthZ);
   starVec.sub(earthVec);
@@ -247,14 +267,18 @@ void draw() {
   starVec.mult(lineOfSightLength);
 
   pushStyle();
+  pushMatrix();
   stroke(128);
   strokeWeight(1);
-  line(earthOrbitRadius, 0, 0, starX, starY, starZ);
-  line(-earthOrbitRadius, 0, 0, starX, starY, starZ);
+  applyTransformation(sceneOriginX, sceneOriginY, sceneOriginZ,sceneRotAngle);
+  line(0, earthOrbitRadius, 0, starX, starY, starZ);
+  line(0, -earthOrbitRadius, 0, starX, starY, starZ);
   popStyle();
+  popMatrix();
 
   pushMatrix();
   pushStyle();
+  applyTransformation(sceneOriginX, sceneOriginY, sceneOriginZ,sceneRotAngle);
   translate(earthVec.x, earthVec.y, earthVec.z);
   stroke(#FFFFFF);
   strokeWeight(2);
@@ -270,4 +294,25 @@ void mousePressed() {
   if (mouseButton == RIGHT) {
     save("parallax-demo.png");
   }
+}
+
+/**
+ * Applies the transformation from world coordinates (right-handed Cartesian) to the P3D
+ * coordinate system. First translated to the desired screen location, then apply the 
+ * conversion from the conventional Cartesian system to P3D and the rotate about the Y-axis
+ * (i.e., the screen horizontal).
+ *
+ * @param x
+ *   Translation in P3D x (pixels).
+ * @param y
+ *   Translation in P3D y (pixels).
+ * @param z
+ *   Translation in P3D z (pixels).
+ * @param sceneRotationAngle
+ *   Rotation angle (about the screen horizontal) in degrees.
+ */
+void applyTransformation(float x, float y, float z, float sceneRotationAngle) {
+  translate(x, y, z);
+  applyMatrix(rightHanded3DtoP3D);
+  rotateY(sceneRotationAngle);
 }
