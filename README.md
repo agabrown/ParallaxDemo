@@ -1,6 +1,6 @@
 # ParallaxDemo
 
-Simple demonstration of the concept of the annual parallax of stars
+Simple demonstration of the concept of the annual parallax of stars.
 
 ## Explanation and motivation for this Processing sketch
 
@@ -21,7 +21,7 @@ At the bottom right a scroll-bar can be seen that can be used to adjust the
 distance to the star (in light year). The value of the distance and
 corresponding parallax angle (in arcsecond) are shown above the scroll-bar.
 
-![ParallaxDemo screenshot](parallax-demo.png)
+![ParallaxDemo screen-shot](parallax-demo.png)
 
 The animation is a recreation in the [Processing](https://processing.org)
 language of a Flash animation created by ESA. The latter is no longer
@@ -31,7 +31,7 @@ the effort to recreate the parallax demonstration in Processing.
 The animation is intended for use during presentations; to provide a simple
 but effective demonstration of the concept of the annual parallax of a star.
 From within the Processing development environment the sketch can be
-exported as a stand-alone executable (with the Java Runtime Engine
+exported as a stand-alone executable (with the Java Runtime Environment
 included), which can be used on any platform (famous last words...).
 
 To run the sketch in full-screen mode uncomment the relevant line in the
