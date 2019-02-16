@@ -34,6 +34,8 @@ From within the Processing development environment the sketch can be
 exported as a stand-alone executable (with the Java Runtime Environment
 included), which can be used on any platform (famous last words...).
 
+You can set the language for the text in the animation at the top of the [ParallaxDemo](./ParallaxDemo.pde) code.
+
 To run the sketch in full-screen mode uncomment the relevant line in the
 `setup { ... }` code block.
 

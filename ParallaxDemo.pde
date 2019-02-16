@@ -4,10 +4,16 @@
  *
  * The drawing is laid out for a 16:9 screen/image format.
  *
- * Anthony Brown Jan 2017 - Dec 2017
+ * Anthony Brown Jan 2017 - Feb 2019
  */
 
 import java.text.DecimalFormat;
+
+/*
+ * Set the language used for the text in the animation.
+ * Other options: EN, NL, FR
+ */
+Languages language = Languages.EN;
 
 int rotationPhase = 0;
 int rotationSense = 1;
@@ -204,12 +210,12 @@ void draw() {
 
   pushStyle();
   fill(#FFFFFF);
-  textSize(0.3*sizeUnit);
+  textSize(0.25*sizeUnit);
   textAlign(LEFT, TOP);
-  text("Apparent position of the closer star", skyProjectionBoxX+0.2*sizeUnit, skyProjectionBoxY+0.2*sizeUnit);
-  text("with respect to the distant stars", skyProjectionBoxX+0.2*sizeUnit, skyProjectionBoxY+0.6*sizeUnit);
-  text("Distance: "+formatter.format(scrollbar.getPos()*9.0+1.0)+" lightyear", 11*sizeUnit, height-sizeUnit);
-  text("Parallax: "+formatter.format(3.26/(scrollbar.getPos()*9.0+1.0))+" \"", 11*sizeUnit, height-1.5*sizeUnit);
+  text(language.getText()[0], skyProjectionBoxX+0.2*sizeUnit, skyProjectionBoxY+0.2*sizeUnit);
+  text(language.getText()[1], skyProjectionBoxX+0.2*sizeUnit, skyProjectionBoxY+0.6*sizeUnit);
+  text(language.getText()[2]+formatter.format(scrollbar.getPos()*9.0+1.0)+language.getText()[3], 11*sizeUnit, height-sizeUnit);
+  text(language.getText()[4]+formatter.format(3.26/(scrollbar.getPos()*9.0+1.0))+language.getText()[5], 11*sizeUnit, height-1.5*sizeUnit);
   popStyle();
 
   varpi = varpiRadius*starZMin*sizeUnit/(starZMin+(starZMax-starZMin)*scrollbar.getPos()*3);
